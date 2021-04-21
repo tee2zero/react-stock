@@ -3,22 +3,15 @@ import { useState, useEffect  } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft, faTimes } from "@fortawesome/free-solid-svg-icons"
 import { NavLink } from 'react-router-dom'
-import {useForm, Controller } from 'react-hook-form'
+import {useForm } from 'react-hook-form'
 import api from '../../services/ProductAPI'
 import cogoToast from 'cogo-toast'
 import { baseURLAPI } from '../../constants/configAxios'
-import Select from 'react-select';
 
 const EditProduct = (props) => {
 
-    const state = {
-        category: {}
-      };
-
     // เรียกใช้งาน React Hook From
-    const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm({
-    defaultValues: state
-  });
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
     // สร้างตัวแปรไว้เก็บ path รูปที่เลือก
     const [imgUrl, setImgUrl] = useState('')
 
@@ -111,19 +104,10 @@ const EditProduct = (props) => {
             setValue("uploadimg",e.target.files)
         }
 
-        setValue("uploadimg",e.target.files)
-
         // console.log("before Test:"+document.getElementById("category").selectedIndex);
         // document.getElementById("category").selectedIndex = 2
         // console.log("After Test:"+document.getElementById("category").selectedIndex);
     }    
-
-    const optionsCategory = [
-        { value: '1', label: 'Electronic'},
-        { value: '2', label: 'Cloth'},
-        { value: '3', label: 'Mum & Kid'},
-       ];
-       
 
     return (
         
@@ -323,7 +307,7 @@ const EditProduct = (props) => {
                                                 }
                                                 <div className="w-full mx-auto my-2">Upload Image</div>
 
-                                                <input id="uploadimg" name="uploadimg" type="file" accept='images/*' className="sr-only"  {...register("uploadimg", { required: true })} onChange={onImageChange}   />
+                                                <input id="uploadimg" name="uploadimg" type="file" accept='images/*' className="sr-only"  {...register("uploadimg")} onChange={onImageChange}   />
                                             </label>
                                         </div>
 
