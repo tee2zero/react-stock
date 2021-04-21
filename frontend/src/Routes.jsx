@@ -25,6 +25,7 @@ import Register from './pages/register/Register'
 import ProductList from './pages/reststrapi/ProductList'
 import AddProduct from './pages/reststrapi/AddProduct'
 import Team from './pages/team/Team'
+import EditProduct from './pages/reststrapi/EditProduct'
 
 const AppRoute = ({component: Component, layout: Layout, ...rest}) => (
    <Route {...rest} render={ props => (
@@ -51,6 +52,7 @@ const Routes = () => {
             <AppRoute path="/dashboard" layout={AdminLayout} component={Dashboard} />
             <AppRoute path="/reststrapi" exact={true} layout={AdminLayout} component={ProductList} />
             <AppRoute path="/reststrapi/addproduct" exact={true} layout={AdminLayout} component={AddProduct} />
+            <AppRoute path="/reststrapi/editproduct/:id" exact={true} layout={AdminLayout} component={EditProduct} />
 
 
             <AppRoute path="/redux" layout={AdminLayout} component={ReduxCart} />
