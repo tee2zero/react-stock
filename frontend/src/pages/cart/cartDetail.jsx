@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { baseURLAPI } from '../../constants/configAxios'
 import NumberFormat from 'react-number-format'
+import { DELETE_ITEM_FROM_CART} from "../../redux/actions/type";
 
 const cartDetail = () => {
 
@@ -55,7 +56,7 @@ const cartDetail = () => {
                                             <span className="text-xs text-gray-500 small"> {product.description}</span>
                                             <br/>
                                             <a href="#delete" className="text-base font-semibold text-red-500 hover:text-red-500"
-                                                onClick={() => { dispatch({ type: 'DELETE_ITEM_FROM_CART', payload: product }) }}>Remove</a>
+                                                onClick={() => { dispatch({ type: DELETE_ITEM_FROM_CART, payload: product }) }}>Remove</a>
 
 
                                         </div>
