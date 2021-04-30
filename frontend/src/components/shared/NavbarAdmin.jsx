@@ -20,16 +20,17 @@ const NavbarAdmin = () => {
   let history = useHistory()
   const logOut = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('persist:root')
     history.push('/login')
   }
 
   return (
     <>
     {/* Header for desktop size */}
-    <header className="w-full items-center bg-white shadow-md py-2 px-6 hidden sm:flex">
+    <header className="items-center hidden w-full px-6 py-2 bg-white shadow-md sm:flex">
     <div className="w-1/2" />
-    <div ref={ref} className="relative w-1/2 flex justify-end">
-        <button className="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-2 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none" onClick={() => {setIsActive(!isActive)}}>
+    <div ref={ref} className="relative flex justify-end w-1/2">
+        <button className="z-10 w-12 h-12 overflow-hidden border-2 border-gray-400 rounded-full realtive hover:border-gray-300 focus:border-gray-300 focus:outline-none" onClick={() => {setIsActive(!isActive)}}>
         <img src="assets/images/avatar_sm.png" />
         </button>
         <div className={`${ isActive ? 'block':'hidden'} absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16`}>
@@ -41,10 +42,10 @@ const NavbarAdmin = () => {
     </header>
 
     {/* Mobile Header & Nav */}
-    <header className="w-full bg-sidebar py-5 shadow-md sm:hidden">
+    <header className="w-full py-5 shadow-md bg-sidebar sm:hidden">
     <div className="flex items-center justify-between px-6">
-        <NavLink to="/dashboard" className="text-white text-2xl font-semibold uppercase hover:text-gray-300">React Land</NavLink>
-        <button className="text-white text-3xl focus:outline-none" onClick={() => {setIsOpen(!isOpen)}}>
+        <NavLink to="/dashboard" className="text-2xl font-semibold text-white uppercase hover:text-gray-300">React Land</NavLink>
+        <button className="text-3xl text-white focus:outline-none" onClick={() => {setIsOpen(!isOpen)}}>
         
         {
           isOpen ? 
@@ -58,67 +59,67 @@ const NavbarAdmin = () => {
     {/* Dropdown Nav */}
     <nav className={`${ isOpen ? 'block':'hidden'} flex flex-col pt-4`}>
         
-        <NavLink to="/dashboard"className="flex items-center text-white py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/dashboard"className="flex items-center py-4 pl-6 text-white nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faTachometerAlt} /> &nbsp; Dashboard
         </NavLink>
 
-        <NavLink to="/reststrapi"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/reststrapi"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faDatabase} /> &nbsp; Rest API (Strapi)
         </NavLink>
 
-        <NavLink to="/redux"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/redux"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faShoppingCart} /> &nbsp; Redux (Cart)
         </NavLink>
 
-        <NavLink to="/jwt"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/jwt"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faKey} /> &nbsp; React JWT
         </NavLink>
 
-        <NavLink to="/chartjs"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/chartjs"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faChartPie} /> &nbsp; ChartJS
         </NavLink>
 
-        <NavLink to="/pdfcsvexport"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/pdfcsvexport"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faFilePdf} /> &nbsp; PDF & CSV Export 
         </NavLink>
 
-        <NavLink to="/hookform"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/hookform"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faInbox} /> &nbsp; React Hook form
         </NavLink>
 
-        <NavLink to="/googlemap"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/googlemap"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faMap} /> &nbsp; Google Map API
         </NavLink>
 
-        <NavLink to="/firebasecrud"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/firebasecrud"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faRocket} /> &nbsp; Firebase CRUD
         </NavLink>
 
-        <NavLink to="/firebaseauth"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/firebaseauth"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faLock} /> &nbsp; Firebase Auth
         </NavLink>
 
-        <NavLink to="/firebasestorage"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/firebasestorage"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faImage} /> &nbsp; Firebase Storage
         </NavLink>
 
-        <NavLink to="/reactadmin"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/reactadmin"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faTable} /> &nbsp; React Admin
         </NavLink>
 
-        <NavLink to="/reactdatagrid"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/reactdatagrid"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faTable} /> &nbsp; React Data Grid 
         </NavLink>
 
-        <NavLink to="/reactytapi"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/reactytapi"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faVideo} /> &nbsp; React Youtube API
         </NavLink>
 
-        <NavLink to="/account"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/account"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faUser} /> &nbsp; Account
         </NavLink>
 
-        <NavLink to="/login"className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item" activeClassName="active-nav-link">
+        <NavLink to="/login"className="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item" activeClassName="active-nav-link">
           <FontAwesomeIcon icon={faSignOutAlt} /> &nbsp; Logout
         </NavLink>
     </nav>

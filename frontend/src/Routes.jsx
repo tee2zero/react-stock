@@ -27,6 +27,9 @@ import AddProduct from './pages/reststrapi/AddProduct'
 import Team from './pages/team/Team'
 import EditProduct from './pages/reststrapi/EditProduct'
 
+import ECommerceLayout from './components/layouts/ECommerceLayout'
+import CartDetail from './pages/cart/cartDetail'
+
 const AppRoute = ({component: Component, layout: Layout, ...rest}) => (
    <Route {...rest} render={ props => (
         <Layout><Component {...props}></Component></Layout> 
@@ -55,7 +58,9 @@ const Routes = () => {
             <AppRoute path="/reststrapi/editproduct/:id" exact={true} layout={AdminLayout} component={EditProduct} />
 
 
-            <AppRoute path="/redux" layout={AdminLayout} component={ReduxCart} />
+            <AppRoute path="/redux" exact={true} layout={ECommerceLayout} component={ReduxCart} />
+            <AppRoute path="/redux/cartdetail" exact={true} layout={ECommerceLayout} component={CartDetail} />
+
             <AppRoute path="/jwt" layout={AdminLayout} component={Jwt} />
             <AppRoute path="/chartjs" layout={AdminLayout} component={Chartjs} />
             <AppRoute path="/pdfcsvexport" layout={AdminLayout} component={PdfCSVExprot} />

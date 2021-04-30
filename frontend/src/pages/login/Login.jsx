@@ -16,7 +16,7 @@ const Login = () => {
 
     // เรียกใช้งาน Context
     const {user, setUser} = useContext(UserContext)
-    console.log("user", user)
+    // console.log("user", user)
 
     // เรียกใช้งาน React Hook From
     const { register, handleSubmit, formState: { errors } } = useForm()
