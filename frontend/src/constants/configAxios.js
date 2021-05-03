@@ -10,3 +10,5 @@ export default axios.create({
         'Authorization' : 'Bearer '+token
     }
 })
+
+export const limitQueryPerPage = 8

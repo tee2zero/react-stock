@@ -2,27 +2,84 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/alt-text */
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
-import { getAllProduct } from '../../redux/actions/productActions'
+import { useState, useEffect,useRef, useCallback } from 'react';
+// import { getAllProduct,getProdctByLimit } from '../../redux/actions/productActions'
 import ProductList from '../product/ProductList'
 import { ADD_ITEM_TO_CART} from "../../redux/actions/type";
+import api from '../../services/ProductAPI'
+import { limitQueryPerPage } from '../../constants/configAxios'
 
 const ReduxCart = () => {
-    document.title = "Redux Cart"
+    document.title = "Redux Cart Add Paging"
 
-    const itemsObj = useSelector(store => store.productReducer)
-    const items = itemsObj.items
-    const [productItems, setProductItems] = useState(items)
+    // ประกาศตัวแปรแบบ Hook เพื่อเรียก store จาก memory
+    // const itemsObj = useSelector(store => store.productReducer)
+    // const items = itemsObj.items
+    // const [productItems, setProductItems] = useState(items)
+
+    const [productItems, setProductItems] = useState([])
+
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getAllProduct())
-    }, [dispatch])
+    // สำหรับโหลด All product จาก redux action เข้า stroe
+    // useEffect(() => {
+    //     dispatch(getAllProduct())
+    // }, [dispatch])
 
     const handleAddtoCart = (index) => {
         // console.log(index)
         dispatch({type:ADD_ITEM_TO_CART, payload: productItems[index]})
     }
+
+    // ตัวแปรสำหรับ Infinite Scrolling 
+    const [pageNumber, setPageNumber] = useState(0)
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [hasMore, setHasMore] = useState(false);
+    const [totalData, setTotalData] = useState(() => {
+      api.getProductCount().then(res => {
+        setTotalData(res.data)
+      })
+    })
+  
+    const observer = useRef()
+
+    const fetchMoreData = useCallback(node => {       
+        if (loading) return
+        if (observer.current) observer.current.disconnect()
+        observer.current = new IntersectionObserver(entries => {
+          if (entries[0].isIntersecting && hasMore) {
+            setPageNumber(prevPageNumber => prevPageNumber + 1)
+          }
+        })
+        if (node) observer.current.observe(node)
+      }, [loading, hasMore])
+    
+      useEffect(() => {
+        setLoading(true);
+        setError(false);
+        try {
+          if (pageNumber * limitQueryPerPage < totalData) {
+
+            api.getProductByLimit(pageNumber).then(res => {
+                setProductItems((prevProduct) => {
+                  return [
+                    ...prevProduct, ...res.data,
+                  ];
+                })
+                setLoading(false)
+                setHasMore(true)
+              })
+          } else {
+            setLoading(false)
+            setHasMore(false)
+          }
+        } catch (error) {
+          console.error(error.meesage)
+          setError(true);
+        }
+      }, [pageNumber, totalData]);   
+      
     return (
         <section className="py-8 bg-white">
             <div className="container flex flex-wrap items-center mx-auto my-auto">
@@ -48,8 +105,12 @@ const ReduxCart = () => {
 
                 <ProductList
                     products={productItems}
-                    handleAddtoCart={handleAddtoCart} />
+                    handleAddtoCart={handleAddtoCart} 
+                    fetchMoreData={fetchMoreData}
+                    />
             </div>
+            <div>{loading && 'Loading...'}</div>
+            <div>{error && 'Error'}</div>
         </section>
 
 

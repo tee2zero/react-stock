@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import http from '../constants/configAxios'
-
+import { limitQueryPerPage } from '../constants/configAxios'
 
 //Method Read All Product
 const getAllProduct = () => {
@@ -27,10 +27,20 @@ const deleteProduct = (id) => {
     return http.delete(`products/${id}`);
 }
 
+const getProductByLimit = async (start) =>{
+    return await http.get(`products/?_start=${start*limitQueryPerPage}&_limit=${limitQueryPerPage}`);
+}
+
+const getProductCount = () =>{
+    return http.get('products/count');
+}
+
 export default {
     getAllProduct,
     getProductById,
     addNewProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductByLimit,
+    getProductCount
 }

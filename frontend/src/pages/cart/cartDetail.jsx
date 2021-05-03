@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { baseURLAPI } from '../../constants/configAxios'
 import NumberFormat from 'react-number-format'
-import { DELETE_ITEM_FROM_CART} from "../../redux/actions/type";
+import { DELETE_ITEM_FROM_CART, INCREASE_QUANTITY_ITEM_CART, DECREASE_QUANTITY_ITEM_CART, RESET_QUANTITY_ITEM_CART } from "../../redux/actions/type";
+import Swal from 'sweetalert2'
 
 const cartDetail = () => {
 
@@ -12,6 +13,27 @@ const cartDetail = () => {
     const dispatch = useDispatch()
     const imageURL = baseURLAPI.substring(0, baseURLAPI.length - 1)
     let total = 0
+
+    const deleteItem = (product) => {
+        let quantity = product.quantity;
+        if (quantity === 1) {
+            Swal.fire({
+                title: 'ยืนยันลบรายการ ?',
+                confirmButtonText: 'ยืนยันลบเลย',
+                confirmButtonColor: 'red',
+                showCancelButton: true,
+                cancelButtonText: 'ปิดหน้านี้'
+              }).then((result) => {
+                if(result.isConfirmed){
+                  // alert('ลบแล้ว')
+                  dispatch({ type: DELETE_ITEM_FROM_CART, payload: product }) 
+                }
+              })
+        } else {
+            dispatch({ type: DECREASE_QUANTITY_ITEM_CART, payload: product })
+        }
+    }
+
     return (
         <div className="container mx-auto mt-10">
             <div className="flex my-10 shadow-md">
@@ -30,7 +52,7 @@ const cartDetail = () => {
                     {/*  Loop สินค้า */}
                     {
                         items.map((product, index) => {
-                            total = total+(product.quantity*product.price)
+                            total = total + (product.quantity * product.price)
                             return (
                                 <div className="flex items-center px-6 py-5 -mx-8 hover:bg-gray-100" key={index}>
                                     <div className="flex w-2/5"> {/* product */}
@@ -50,25 +72,38 @@ const cartDetail = () => {
                                                     />
                                             }
                                         </div>
-                                    
+
                                         <div className="flex flex-col justify-between flex-grow ml-4">
                                             <span className="text-sm font-bold">{product.title}</span>
                                             <span className="text-xs text-gray-500 small"> {product.description}</span>
-                                            <br/>
+                                            <br />
                                             <a href="#delete" className="text-base font-semibold text-red-500 hover:text-red-500"
                                                 onClick={() => { dispatch({ type: DELETE_ITEM_FROM_CART, payload: product }) }}>Remove</a>
 
 
                                         </div>
                                     </div>
+
                                     <span className="w-1/5 text-sm font-semibold text-center">
-                                        <NumberFormat value={product.quantity} fixedDecimalScale={true} decimalScale={0} thousandSeparator={true} displayType={'text'} />
+                                        <button onClick={() => deleteItem(product)}>
+                                            <svg className="w-3 text-gray-600 fill-current" viewBox="0 0 448 512"><path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                                            </svg>
+                                        </button>
+
+                                        <span className="w-8 mx-2 text-center border">{product.quantity}</span>
+                                        <button onClick={() => { dispatch({ type: INCREASE_QUANTITY_ITEM_CART, payload: product }) }}>
+                                            <svg className="w-3 text-gray-600 fill-current" viewBox="0 0 448 512">
+                                                <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                                            </svg>
+                                        </button>
                                     </span>
+
+
                                     <span className="w-1/5 text-sm font-semibold text-center">
                                         <NumberFormat value={product.price} fixedDecimalScale={true} decimalScale={0} thousandSeparator={true} displayType={'text'} />
                                     </span>
                                     <span className="w-1/5 text-sm font-semibold text-center">
-                                        <NumberFormat value={product.quantity*product.price} fixedDecimalScale={true} decimalScale={0} thousandSeparator={true} displayType={'text'} />
+                                        <NumberFormat value={product.quantity * product.price} fixedDecimalScale={true} decimalScale={0} thousandSeparator={true} displayType={'text'} />
                                     </span>
                                 </div>
                             )
@@ -100,7 +135,8 @@ const cartDetail = () => {
                                 <NumberFormat value={total} fixedDecimalScale={true} decimalScale={0} thousandSeparator={true} displayType={'text'} /> บาท
                             </span>
                         </div>
-                        <button className="w-full py-3 text-sm font-semibold text-white uppercase bg-indigo-500 hover:bg-indigo-600">Checkout</button>
+                        <button className="w-full py-3 text-sm font-semibold text-white uppercase bg-indigo-500 hover:bg-indigo-600" 
+                        onClick={() => { dispatch({ type: RESET_QUANTITY_ITEM_CART}) }}>Checkout</button>
                     </div>
                 </div>
             </div>
